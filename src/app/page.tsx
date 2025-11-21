@@ -116,7 +116,7 @@ export default function Home() {
           id: `error-${Date.now()}`,
         },
       ]);
-      
+
       await speakText(errorMsg);
     } finally {
       setIsLoading(false);
@@ -255,7 +255,7 @@ export default function Home() {
         mediaRecorder.onstop = async () => {
           const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
           await transcribeAudio(audioBlob);
-          
+
           // In continuous mode, restart recording after transcription (unless speaking)
           if (continuousListening && !isSpeaking) {
             setTimeout(() => startRecording(), 100);
@@ -270,7 +270,7 @@ export default function Home() {
       // Initial setup - get the stream
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      
+
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
@@ -282,7 +282,7 @@ export default function Home() {
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
         await transcribeAudio(audioBlob);
-        
+
         // In continuous mode, restart recording after transcription (unless speaking)
         if (continuousListening && !isSpeaking) {
           setTimeout(() => startRecording(), 100);
@@ -491,7 +491,7 @@ export default function Home() {
           id: `error-${Date.now()}`,
         },
       ]);
-      
+
       // Also speak error message in continuous mode
       if (continuousListening) {
         await speakText(errorMsg);
@@ -508,46 +508,44 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 via-emerald-950 to-amber-900 text-emerald-50"
-      style={{
-        fontFamily: '"Cinzel", "Times New Roman", serif',
-      }}
+      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-950 via-emerald-950 to-amber-900 text-emerald-50"
+      style={{ fontFamily: '"Cinzel", "Times New Roman", serif' }}
     >
-      {/* distant forest silhouettes */}
-      <div className="pointer-events-none fixed inset-0 opacity-40">
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-emerald-900 via-emerald-950/80 to-transparent" />
-        <div className="absolute inset-x-0 bottom-10 h-32 bg-[radial-gradient(circle_at_10%_90%,rgba(16,185,129,0.6),transparent_60%),radial-gradient(circle_at_80%_100%,rgba(56,189,248,0.4),transparent_55%)]" />
+      {/* atmospheric background */}
+      <div className="pointer-events-none fixed inset-0">
+        {/* sky stars */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(148,163,184,0.35),transparent_60%),radial-gradient(circle_at_80%_10%,rgba(248,250,252,0.28),transparent_55%)] opacity-40" />
+        {/* forest silhouette */}
+        <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-emerald-900 via-emerald-950/95 to-transparent" />
       </div>
 
-      <div className="relative z-10 w-full max-w-4xl px-4 py-10">
-        <div
-          className="relative h-[700px] flex flex-col overflow-hidden rounded-3xl border border-emerald-500/60 bg-gradient-to-b from-slate-900/95 via-emerald-950/90 to-amber-950/90 shadow-[0_0_60px_rgba(16,185,129,0.5)]"
-        >
-          {/* ethereal oracular glow behind everything */}
-          <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(56,189,248,0.35),transparent_70%)] blur-3xl" />
-          <div className="pointer-events-none absolute bottom-[-40px] left-1/2 h-72 w-[420px] -translate-x-1/2 rounded-[999px] bg-[radial-gradient(circle,rgba(45,212,191,0.7),transparent_65%)] blur-3xl" />
+      <div className="relative z-10 w-full max-w-5xl px-4 py-10">
+        <div className="relative h-[720px] flex flex-col overflow-hidden rounded-3xl border border-emerald-500/60 bg-gradient-to-b from-slate-950/95 via-emerald-950/95 to-slate-950/95 shadow-[0_0_60px_rgba(16,185,129,0.55)]">
+          {/* oracle glow */}
+          <div className="pointer-events-none absolute -top-28 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(94,234,212,0.4),transparent_70%)] blur-3xl" />
+          <div className="pointer-events-none absolute bottom-[-60px] left-1/2 h-80 w-[460px] -translate-x-1/2 rounded-[999px] bg-[radial-gradient(circle_at_50%_20%,rgba(45,212,191,0.7),transparent_60%),radial-gradient(circle_at_50%_100%,rgba(253,224,171,0.85),transparent_60%)] blur-3xl opacity-80" />
 
-          {/* SKY + TITLE + INPUT (user asks in the sky) */}
-          <div className="relative z-10 border-b border-emerald-500/40 bg-gradient-to-b from-slate-900/90 via-sky-900/40 to-transparent px-6 pt-5 pb-4">
+          {/* SKY: title + question input */}
+          <div className="relative border-b border-emerald-500/50 bg-gradient-to-b from-slate-950/95 via-sky-950/30 to-transparent px-6 pt-5 pb-4">
             <div className="flex flex-col gap-4">
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl md:text-3xl font-semibold tracking-[0.15em] uppercase text-emerald-100">
-                    Oracle of the Forest Spring
+                  <h1 className="text-2xl md:text-3xl font-semibold tracking-[0.18em] uppercase text-emerald-100">
+                    Oracle of the Chimera Spring
                   </h1>
                   <p className="mt-1 text-xs md:text-sm text-emerald-200/80">
-                    Cast your question into the sky. The chimera-headed oracle answers from the steaming pool below.
+                    Write your question into the night sky. The chimera-headed oracle replies in steam and forest light.
                   </p>
                 </div>
 
-                {/* listening controls, styled as runes */}
-                <div className="flex flex-col items-end gap-2 text-[0.6rem] md:text-xs font-mono">
+                {/* listening controls */}
+                <div className="flex flex-col items-end gap-2 text-[0.6rem] md:text-[0.65rem] font-mono">
                   <label
-                    className={`flex items-center gap-2 rounded-full border border-emerald-400/60 px-3 py-1.5 shadow-sm ${
+                    className={`flex items-center gap-2 rounded-full border border-emerald-400/70 px-3 py-1.5 shadow-sm ${
                       isSpeaking ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:border-teal-300'
-                    } bg-slate-900/70`}
+                    } bg-slate-950/80`}
                   >
-                    <span className="tracking-[0.18em] uppercase text-emerald-200">Continuous</span>
+                    <span className="tracking-[0.18em] uppercase text-emerald-200">Continuous Listen</span>
                     <button
                       onClick={async () => {
                         if (isSpeaking) return;
@@ -571,8 +569,8 @@ export default function Home() {
                       disabled={isSpeaking}
                       className={`rounded-full border border-emerald-400/80 px-3 py-1 text-[0.6rem] tracking-[0.2em] uppercase transition ${
                         continuousListening
-                          ? 'bg-emerald-400 text-slate-900 shadow-[0_0_12px_rgba(74,222,128,0.9)]'
-                          : 'bg-slate-900/70 text-emerald-100 hover:bg-emerald-500/20'
+                          ? 'bg-emerald-400 text-slate-950 shadow-[0_0_14px_rgba(74,222,128,0.95)]'
+                          : 'bg-slate-950/80 text-emerald-100 hover:bg-emerald-500/20'
                       } ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                       {continuousListening ? 'On' : 'Off'}
@@ -581,20 +579,20 @@ export default function Home() {
 
                   <div className="flex gap-2">
                     {isListening && !isSpeaking && (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-sky-400/80 bg-sky-900/60 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-sky-100 shadow-[0_0_10px_rgba(56,189,248,0.7)]">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-sky-400/80 bg-sky-900/70 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.15em] text-sky-100 shadow-[0_0_12px_rgba(56,189,248,0.85)]">
                         <Mic size={11} className="animate-pulse" />
                         <span>Listening</span>
                       </span>
                     )}
                     {isSpeaking && (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/80 bg-emerald-500/80 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-slate-900 shadow-[0_0_16px_rgba(16,185,129,0.95)]">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/80 bg-emerald-500/90 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.15em] text-slate-950 shadow-[0_0_16px_rgba(22,163,74,0.98)]">
                         <Volume2 size={11} className="animate-pulse" />
                         <span>Speaking</span>
                       </span>
                     )}
                     {continuousListening && !isListening && !isSpeaking && (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/60 bg-slate-900/70 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-emerald-100">
-                        <span className="h-1 w-1 rounded-full bg-emerald-300/80" />
+                      <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/70 bg-slate-950/80 px-3 py-1 font-mono text-[0.6rem] uppercase tracking-[0.15em] text-emerald-100">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-300/80" />
                         <span>Awaiting Echo</span>
                       </span>
                     )}
@@ -602,8 +600,11 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Question in the sky: original form moved here */}
-              <form onSubmit={handleSubmit} className="mt-1 flex items-center gap-2 rounded-2xl border border-sky-400/60 bg-slate-900/60 px-3 py-2 shadow-[0_0_25px_rgba(56,189,248,0.5)] backdrop-blur-md">
+              {/* QUESTION INPUT IN THE SKY */}
+              <form
+                onSubmit={handleSubmit}
+                className="mt-1 flex items-center gap-2 rounded-2xl border border-sky-400/70 bg-slate-950/80 px-3 py-2 shadow-[0_0_28px_rgba(56,189,248,0.7)] backdrop-blur-md"
+              >
                 <input
                   type="text"
                   value={input}
@@ -611,7 +612,7 @@ export default function Home() {
                   placeholder={
                     isListening
                       ? '⋆ The sky is listening. Speak your question...'
-                      : 'Write your question into the night sky...'
+                      : 'Etch your question into the clouded stars...'
                   }
                   className={`flex-1 border-0 bg-transparent text-xs md:text-sm text-emerald-50 placeholder-emerald-200/60 focus:outline-none focus:ring-0 ${
                     isListening ? 'font-mono tracking-[0.12em] uppercase' : ''
@@ -625,17 +626,17 @@ export default function Home() {
                   onClick={isRecording ? stopRecording : startRecording}
                   className={`flex h-9 w-9 items-center justify-center rounded-full border border-emerald-400/80 text-emerald-100 transition ${
                     isRecording
-                      ? 'bg-emerald-500/80 text-slate-900 shadow-[0_0_15px_rgba(16,185,129,0.9)] animate-pulse'
-                      : 'bg-slate-900/70 hover:bg-emerald-500/20'
+                      ? 'bg-emerald-500/90 text-slate-950 shadow-[0_0_16px_rgba(16,185,129,0.95)] animate-pulse'
+                      : 'bg-slate-950/80 hover:bg-emerald-500/20'
                   }`}
                   disabled={isLoading || continuousListening}
-                  title={continuousListening ? 'Mic is auto-managed in continuous mode' : 'Speak into the spring’s steam'}
+                  title={continuousListening ? 'Mic is auto-managed in continuous mode' : 'Speak into the steam'}
                 >
                   {isRecording ? <Square size={16} /> : <Mic size={16} />}
                 </button>
                 <button
                   type="submit"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-sky-400/80 bg-sky-500/90 text-slate-900 shadow-[0_0_18px_rgba(56,189,248,0.9)] transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-sky-400/80 bg-sky-500/90 text-slate-950 shadow-[0_0_20px_rgba(56,189,248,0.95)] transition hover:bg-sky-400 disabled:cursor-not-allowed disabled:opacity-40"
                   disabled={!input.trim() || isLoading}
                   aria-label="Send question to oracle"
                 >
@@ -645,29 +646,25 @@ export default function Home() {
             </div>
           </div>
 
-          {/* FOREST + HOT SPRING (messages) */}
-          <div className="relative z-10 flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
-            {/* hills / treeline at mid-level */}
-            <div className="pointer-events-none absolute inset-x-0 top-6 h-24 bg-[radial-gradient(circle_at_10%_20%,rgba(34,197,94,0.35),transparent_60%),radial-gradient(circle_at_80%_0,rgba(22,163,74,0.4),transparent_60%)] opacity-40" />
-
-            {/* oracle pool at bottom */}
-            <div className="pointer-events-none absolute inset-x-6 bottom-[52px] h-40 rounded-[100%] bg-[radial-gradient(circle_at_50%_20%,rgba(45,212,191,0.6),transparent_60%),radial-gradient(circle_at_50%_100%,rgba(253,224,171,0.7),transparent_65%)] opacity-70 blur-sm" />
-            <div className="pointer-events-none absolute left-1/2 bottom-6 h-24 w-24 -translate-x-1/2 rounded-full border border-emerald-200/70 bg-[radial-gradient(circle_at_50%_30%,rgba(248,250,252,0.8),transparent_65%),radial-gradient(circle_at_0%_100%,rgba(34,197,94,0.7),transparent_60%)] shadow-[0_0_40px_rgba(34,197,94,0.9)]" />
-
-            {/* chimera head suggestion */}
-            <div className="pointer-events-none absolute left-1/2 bottom-20 h-14 w-24 -translate-x-1/2 rounded-[40px] bg-gradient-to-r from-emerald-900 via-slate-900 to-emerald-900 shadow-[0_0_25px_rgba(15,23,42,0.9)]">
+          {/* FOREST & HOT SPRING: message stream */}
+          <div className="relative flex-1 overflow-y-auto px-4 py-4 md:px-6 md:py-5">
+            {/* forest canopy glow */}
+            <div className="pointer-events-none absolute inset-x-0 top-4 h-24 bg-[radial-gradient(circle_at_20%_0,rgba(34,197,94,0.4),transparent_60%),radial-gradient(circle_at_80%_10%,rgba(22,163,74,0.55),transparent_60%)] opacity-50" />
+            {/* oracle “head” just above spring */}
+            <div className="pointer-events-none absolute left-1/2 bottom-20 h-16 w-28 -translate-x-1/2 rounded-[42px] bg-gradient-to-r from-emerald-900 via-slate-950 to-emerald-900 shadow-[0_0_26px_rgba(15,23,42,0.95)]">
               <div className="absolute -top-2 left-1/2 flex -translate-x-1/2 gap-1">
-                <span className="h-4 w-4 rounded-full bg-emerald-400/90 shadow-[0_0_10px_rgba(74,222,128,1)]" />
-                <span className="h-4 w-4 rounded-full bg-sky-300/90 shadow-[0_0_10px_rgba(56,189,248,1)]" />
-                <span className="h-4 w-4 rounded-full bg-amber-300/90 shadow-[0_0_10px_rgba(252,211,77,1)]" />
+                <span className="h-4 w-4 rounded-full bg-emerald-400/90 shadow-[0_0_10px_rgba(74,222,128,0.95)]" />
+                <span className="h-4 w-4 rounded-full bg-sky-300/90 shadow-[0_0_10px_rgba(56,189,248,0.95)]" />
+                <span className="h-4 w-4 rounded-full bg-amber-300/90 shadow-[0_0_10px_rgba(252,211,77,0.95)]" />
               </div>
               <div className="absolute inset-x-4 bottom-1 flex justify-between text-[0.55rem] uppercase tracking-[0.18em] text-emerald-100/70">
                 <span>Oracle</span>
                 <span>Chimera</span>
               </div>
             </div>
+            {/* hot spring pool */}
+            <div className="pointer-events-none absolute inset-x-6 bottom-6 h-40 rounded-[100%] bg-[radial-gradient(circle_at_50%_20%,rgba(45,212,191,0.8),transparent_60%),radial-gradient(circle_at_50%_100%,rgba(253,224,171,0.9),transparent_65%)] opacity-80 blur-sm" />
 
-            {/* MESSAGE STREAM */}
             <div className="relative space-y-4">
               {messages.slice(1).map((message) => (
                 <div
@@ -677,8 +674,8 @@ export default function Home() {
                   }`}
                 >
                   {message.role === 'assistant' && (
-                    <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-emerald-300/80 bg-emerald-700/60 shadow-[0_0_18px_rgba(45,212,191,0.8)]">
-                      <Bot size={18} className="text-emerald-100" />
+                    <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-emerald-300/80 bg-emerald-700/70 shadow-[0_0_18px_rgba(45,212,191,0.85)]">
+                      <Bot size={18} className="text-emerald-50" />
                     </div>
                   )}
 
@@ -686,13 +683,12 @@ export default function Home() {
                     className={`flex max-w-[72%] flex-col ${
                       message.role === 'user' ? 'items-end' : 'items-start'
                     }`}
-                    style={{ fontFamily: '"Cinzel", "Times New Roman", serif' }}
                   >
                     <div
                       className={`rounded-2xl border px-3 py-2.5 text-sm leading-relaxed shadow-md backdrop-blur-sm ${
                         message.role === 'user'
                           ? 'border-sky-300/70 bg-sky-100/90 text-slate-900 shadow-[0_0_18px_rgba(56,189,248,0.65)]'
-                          : 'border-emerald-200/60 bg-gradient-to-b from-emerald-800/80 via-emerald-900/90 to-slate-950/95 text-emerald-50 shadow-[0_0_22px_rgba(16,185,129,0.75)]'
+                          : 'border-emerald-200/70 bg-gradient-to-b from-emerald-800/85 via-emerald-950/95 to-slate-950 text-emerald-50 shadow-[0_0_22px_rgba(16,185,129,0.8)]'
                       }`}
                     >
                       <p className="whitespace-pre-wrap text-xs md:text-sm">
@@ -703,7 +699,7 @@ export default function Home() {
                     {message.role === 'assistant' && (
                       <button
                         onClick={() => speakText(message.content)}
-                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-emerald-300/70 bg-slate-900/70 px-2.5 py-1 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-500/20"
+                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-emerald-300/70 bg-slate-950/80 px-2.5 py-1 text-[0.66rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-500/20"
                         aria-label="Text to speech"
                       >
                         <Volume2 size={11} />
@@ -719,7 +715,7 @@ export default function Home() {
                   </div>
 
                   {message.role === 'user' && (
-                    <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-sky-300/70 bg-slate-900/80 shadow-[0_0_14px_rgba(56,189,248,0.6)]">
+                    <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-sky-300/70 bg-slate-950/80 shadow-[0_0_14px_rgba(56,189,248,0.65)]">
                       <User size={18} className="text-sky-200" />
                     </div>
                   )}
@@ -728,10 +724,10 @@ export default function Home() {
 
               {isLoading && (
                 <div className="flex items-center justify-start gap-2">
-                  <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full border border-emerald-300/80 bg-emerald-700/60 shadow-[0_0_18px_rgba(45,212,191,0.8)]">
-                    <Bot size={18} className="text-emerald-100" />
+                  <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full border border-emerald-300/80 bg-emerald-700/70 shadow-[0_0_18px_rgba(45,212,191,0.85)]">
+                    <Bot size={18} className="text-emerald-50" />
                   </div>
-                  <div className="rounded-2xl border border-emerald-200/70 bg-emerald-900/80 px-3 py-2.5 shadow-[0_0_18px_rgba(16,185,129,0.7)]">
+                  <div className="rounded-2xl border border-emerald-200/80 bg-emerald-900/90 px-3 py-2.5 shadow-[0_0_18px_rgba(16,185,129,0.75)]">
                     <div className="flex gap-2">
                       <div
                         className="h-2 w-2 rounded-full bg-emerald-300 animate-bounce"
@@ -753,11 +749,11 @@ export default function Home() {
             </div>
           </div>
 
-          {/* small grounding footer bar (no logic, just visual) */}
-          <div className="relative z-10 h-10 border-t border-emerald-500/40 bg-gradient-to-t from-amber-900/80 via-emerald-950/90 to-transparent px-6">
+          {/* footer grounding strip */}
+          <div className="relative h-9 border-t border-emerald-500/50 bg-gradient-to-t from-amber-900/80 via-emerald-950/90 to-transparent px-6">
             <div className="flex h-full items-center justify-between text-[0.6rem] uppercase tracking-[0.18em] text-emerald-200/70">
               <span>Forest Channel Open</span>
-              <span>Steam &amp; Serpents Protocol v1.0</span>
+              <span>Serpent-Oracular Interface v1.0</span>
             </div>
           </div>
         </div>
