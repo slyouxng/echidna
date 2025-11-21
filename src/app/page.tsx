@@ -488,49 +488,62 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-white text-emerald-950"
+      className="min-h-screen flex items-center justify-center"
       style={{
         fontFamily:
           'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
+        backgroundImage:
+          'url("https://images.nzgeo.com/1970/01/109_Lichen_body11-600x399.jpg")',
+        backgroundSize: '220px 220px',
+        backgroundRepeat: 'repeat',
+        backgroundPosition: 'center',
       }}
     >
-      <div className="relative w-full max-w-4xl px-4 py-10">
-        {/* Main chat box: lighter, softer border */}
-        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-emerald-200/80 bg-emerald-950 text-emerald-50 shadow-[0_0_35px_rgba(190,242,100,0.25)]">
+      {/* Lime wash over tiled lichen to unify tone */}
+      <div className="pointer-events-none fixed inset-0 bg-lime-900/40 mix-blend-multiply" />
+
+      <div className="relative z-10 w-full max-w-4xl px-4 py-10">
+        {/* Chat box: softened edges, blurred glass over lichen */}
+        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-lime-200/60 bg-lime-900/35 text-lime-50 shadow-[0_0_40px_rgba(190,242,100,0.35)] backdrop-blur-xl">
+          {/* subtle inner wash to smooth the lichen behind */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-lime-950/40 via-lime-900/20 to-lime-700/25" />
+
           {/* Header with lichen eye */}
-          <div className="relative z-10 flex items-center justify-between border-b border-emerald-200/70 bg-emerald-950/70 px-5 py-4">
+          <div className="relative z-10 flex items-center justify-between border-b border-lime-300/40 bg-lime-950/40 px-5 py-4">
             <div className="flex items-center gap-3">
-              {/* Eye-like breathing icon (lichen green) */}
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-[0_0_16px_rgba(190,242,100,0.7)] animate-pulse">
-                {/* Outer ring */}
-                <div className="absolute inset-1 rounded-full border-2 border-lime-300/80" />
-                {/* Iris band */}
-                <div className="absolute inset-y-2 left-1/2 w-7 -translate-x-1/2 rounded-full bg-emerald-950/80" />
-                {/* Pupil */}
-                <div className="relative h-3.5 w-3.5 rounded-full bg-lime-300 shadow-[0_0_10px_rgba(190,242,100,0.9)] border border-emerald-900" />
-                {/* highlight */}
-                <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-emerald-50/90" />
-                {/* Invisible Bot icon to keep import "used" */}
+              {/* Lichen eye – Echidna */}
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-lime-500 to-emerald-500 shadow-[0_0_18px_rgba(190,242,100,0.8)] animate-pulse">
+                {/* Eye outline */}
+                <div className="absolute inset-1 rounded-full border-2 border-lime-200/90" />
+                {/* Inner sclera */}
+                <div className="absolute inset-2 rounded-full bg-lime-900/70" />
+                {/* Vertical slit iris */}
+                <div className="absolute inset-y-2 left-1/2 w-5 -translate-x-1/2 rounded-full bg-gradient-to-b from-lime-300 to-emerald-400 shadow-[0_0_10px_rgba(190,242,100,0.9)]" />
+                {/* Pupil core */}
+                <div className="relative h-3 w-3 rounded-full bg-lime-950 border border-lime-200 shadow-[0_0_8px_rgba(190,242,100,0.9)]" />
+                {/* Highlight */}
+                <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-lime-100/80" />
+                {/* Hidden Bot to keep import used */}
                 <Bot className="h-0 w-0 opacity-0" />
               </div>
               <div>
-                <h1 className="text-lg font-semibold tracking-wide text-emerald-50">
+                <h1 className="text-lg font-semibold tracking-wide text-lime-50">
                   AI POET CHAT
                 </h1>
-                <p className="text-xs text-emerald-100/90">
+                <p className="text-xs text-lime-100/90">
                   Chat with Echidna, a creature from the 70s.
                 </p>
               </div>
             </div>
 
-            {/* Continuous listen + status */}
+            {/* Continuous listen & status */}
             <div className="flex flex-col items-end gap-1">
               <label
-                className={`flex items-center gap-2 rounded-full border border-emerald-200/90 px-3 py-1 text-[0.65rem] tracking-wide ${
+                className={`flex items-center gap-2 rounded-full border border-lime-200/80 px-3 py-1 text-[0.65rem] tracking-wide ${
                   isSpeaking ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                } bg-emerald-950/60`}
+                } bg-lime-950/40`}
               >
-                <span className="font-mono uppercase text-emerald-100">
+                <span className="font-mono uppercase text-lime-100">
                   Continuous
                 </span>
                 <button
@@ -556,8 +569,8 @@ export default function Home() {
                   disabled={isSpeaking}
                   className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.2em] transition ${
                     continuousListening
-                      ? 'border-lime-200 bg-lime-200 text-emerald-950 shadow-[0_0_10px_rgba(190,242,100,0.7)]'
-                      : 'border-emerald-200/90 bg-transparent text-emerald-100 hover:bg-emerald-900/60'
+                      ? 'border-lime-100 bg-lime-100 text-lime-900 shadow-[0_0_10px_rgba(190,242,100,0.7)]'
+                      : 'border-lime-200/80 bg-transparent text-lime-100 hover:bg-lime-900/50'
                   } ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {continuousListening ? 'On' : 'Off'}
@@ -566,19 +579,19 @@ export default function Home() {
 
               <div className="flex gap-2">
                 {isListening && !isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200/90 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-200/80 bg-lime-950/70 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-lime-100">
                     <Mic size={11} className="animate-pulse" />
                     <span>Listening</span>
                   </span>
                 )}
                 {isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-lime-300/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(190,242,100,0.9)]">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-200/80 bg-lime-200 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-lime-900 shadow-[0_0_12px_rgba(190,242,100,0.9)]">
                     <Volume2 size={11} className="animate-pulse" />
                     <span>Speaking</span>
                   </span>
                 )}
                 {continuousListening && !isListening && !isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200/90 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100/90">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-200/80 bg-lime-950/60 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-lime-100/90">
                     <span className="h-1.5 w-1.5 rounded-full bg-lime-300" />
                     <span>Idle</span>
                   </span>
@@ -587,19 +600,13 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Message area with lichen background */}
+          {/* Message area */}
           <div className="relative z-10 flex-1 overflow-y-auto px-4 py-4 md:px-5 md:py-5">
-            {/* Lichen image + lime tint */}
-            <div className="pointer-events-none absolute inset-0">
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-80"
-                style={{
-                  backgroundImage:
-                    'url("https://th-thumbnailer.cdn-si-edu.com/CY-x9b58tsaD2ap4nMD5mE2nUbw=/1026x684/filters:no_upscale():focal(2523x1920:2524x1921)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/b5/d3/b5d301e0-00c1-4d43-9a24-d52905d264a4/gettyimages-1272430701.jpg")',
-                }}
-              />
-              <div className="absolute inset-0 bg-lime-300/35 mix-blend-multiply" />
-              <div className="absolute inset-0 bg-emerald-950/40" />
+            {/* Very subtle “trunks” to keep a forest hint */}
+            <div className="pointer-events-none absolute inset-0 opacity-20">
+              <div className="absolute inset-y-4 left-[18%] w-px bg-gradient-to-b from-lime-200/80 via-lime-700/60 to-lime-900/80" />
+              <div className="absolute inset-y-6 left-[36%] w-[2px] bg-gradient-to-b from-lime-200/80 via-lime-700/60 to-lime-900/80" />
+              <div className="absolute inset-y-3 right-[24%] w-[1.5px] bg-gradient-to-b from-lime-200/80 via-lime-700/60 to-lime-900/80" />
             </div>
 
             <div className="relative flex h-full flex-col space-y-3">
@@ -610,19 +617,22 @@ export default function Home() {
                     message.role === 'user' ? 'justify-end' : 'justify-start'
                   }`}
                 >
-                  {/* Organic lichen fanged mouth for assistant */}
                   {message.role === 'assistant' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
-                      <div className="relative h-5 w-5 rounded-b-[999px] rounded-t-[999px] bg-emerald-950/90 overflow-hidden flex items-end justify-center border border-lime-200/80">
-                        {/* inner "tongue"/lichen texture */}
-                        <div className="absolute inset-x-0 bottom-0 h-2.5 bg-gradient-to-t from-lime-300 via-lime-200 to-emerald-900/80" />
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[1.1rem] bg-gradient-to-b from-lime-400 to-lime-700 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
+                      {/* Organic lichen fanged mouth */}
+                      <div className="relative h-5 w-7 rounded-full bg-lime-950/95 border border-lime-300/90 overflow-hidden flex items-center justify-center">
+                        {/* upper gum line */}
+                        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-lime-500 to-lime-800" />
+                        {/* lower gum */}
+                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-lime-500 to-lime-800" />
                         {/* fangs */}
-                        <div className="absolute -top-0.5 left-1/4 h-2 w-1 rotate-6 rounded-b-full bg-emerald-50" />
-                        <div className="absolute -top-0.5 right-1/4 h-2 w-1 -rotate-6 rounded-b-full bg-emerald-50" />
-                        {/* subtle slime glint */}
-                        <div className="absolute bottom-1 left-1/4 h-1 w-2 rounded-full bg-lime-100/70" />
-                        <div className="absolute bottom-1 right-1/4 h-1 w-2 rounded-full bg-lime-100/60" />
+                        <div className="absolute top-1 left-1 h-2 w-1.5 rounded-b-[0.4rem] bg-lime-100" />
+                        <div className="absolute top-1 right-1 h-2 w-1.5 rounded-b-[0.4rem] bg-lime-100" />
+                        {/* central tongue-ish lichen */}
+                        <div className="absolute inset-x-2 bottom-0 h-2 rounded-t-full bg-gradient-to-t from-lime-400 to-emerald-400/90" />
                       </div>
+                      {/* Hidden Bot to keep import used */}
+                      <Bot className="h-0 w-0 opacity-0" />
                     </div>
                   )}
 
@@ -632,10 +642,10 @@ export default function Home() {
                     }`}
                   >
                     <div
-                      className={`rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-md ${
+                      className={`rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-md backdrop-blur-sm ${
                         message.role === 'user'
-                          ? 'bg-emerald-950/85 text-emerald-50 border border-emerald-700/80'
-                          : 'bg-emerald-50/95 text-emerald-950 border border-emerald-100/90'
+                          ? 'bg-lime-950/70 text-lime-50 border border-lime-400/60'
+                          : 'bg-lime-50/95 text-lime-950 border border-lime-100/90'
                       }`}
                     >
                       <p className="whitespace-pre-wrap text-xs md:text-sm">
@@ -646,7 +656,7 @@ export default function Home() {
                     {message.role === 'assistant' && (
                       <button
                         onClick={() => speakText(message.content)}
-                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/90 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-900"
+                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-lime-200/80 bg-lime-950/70 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-lime-100 transition hover:bg-lime-900"
                         aria-label="Text to speech"
                       >
                         <Volume2 size={11} />
@@ -655,14 +665,14 @@ export default function Home() {
                     )}
 
                     {message.timestamp && (
-                      <span className="mt-1 text-[0.6rem] font-mono text-emerald-100/80">
+                      <span className="mt-1 text-[0.6rem] font-mono text-lime-100/85">
                         {new Date(message.timestamp).toLocaleTimeString()}
                       </span>
                     )}
                   </div>
 
                   {message.role === 'user' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/80 text-emerald-100 border border-emerald-200/80">
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-lime-950/80 text-lime-100 border border-lime-300/70">
                       <User size={16} />
                     </div>
                   )}
@@ -671,25 +681,29 @@ export default function Home() {
 
               {isLoading && (
                 <div className="flex items-center justify-start gap-2">
-                  <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
-                    <div className="relative h-5 w-5 rounded-b-[999px] rounded-t-[999px] bg-emerald-950/90 overflow-hidden flex items-end justify-center border border-lime-200/80">
-                      <div className="absolute inset-x-0 bottom-0 h-2.5 bg-gradient-to-t from-lime-300 via-lime-200 to-emerald-900/80" />
-                      <div className="absolute -top-0.5 left-1/4 h-2 w-1 rotate-6 rounded-b-full bg-emerald-50" />
-                      <div className="absolute -top-0.5 right-1/4 h-2 w-1 -rotate-6 rounded-b-full bg-emerald-50" />
+                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-[1.1rem] bg-gradient-to-b from-lime-400 to-lime-700 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
+                    {/* same mouth avatar when “typing” */}
+                    <div className="relative h-5 w-7 rounded-full bg-lime-950/95 border border-lime-300/90 overflow-hidden flex items-center justify-center">
+                      <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-b from-lime-500 to-lime-800" />
+                      <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-t from-lime-500 to-lime-800" />
+                      <div className="absolute top-1 left-1 h-2 w-1.5 rounded-b-[0.4rem] bg-lime-100" />
+                      <div className="absolute top-1 right-1 h-2 w-1.5 rounded-b-[0.4rem] bg-lime-100" />
+                      <div className="absolute inset-x-2 bottom-0 h-2 rounded-t-full bg-gradient-to-t from-lime-400 to-emerald-400/90" />
                     </div>
+                    <Bot className="h-0 w-0 opacity-0" />
                   </div>
-                  <div className="rounded-2xl border border-emerald-100/80 bg-emerald-50/95 px-3 py-2">
+                  <div className="rounded-2xl border border-lime-200/80 bg-lime-50/95 px-3 py-2">
                     <div className="flex gap-1.5">
                       <div
-                        className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
+                        className="h-1.5 w-1.5 rounded-full bg-lime-600 animate-bounce"
                         style={{ animationDelay: '0ms' }}
                       />
                       <div
-                        className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
+                        className="h-1.5 w-1.5 rounded-full bg-lime-600 animate-bounce"
                         style={{ animationDelay: '150ms' }}
                       />
                       <div
-                        className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
+                        className="h-1.5 w-1.5 rounded-full bg-lime-600 animate-bounce"
                         style={{ animationDelay: '300ms' }}
                       />
                     </div>
@@ -702,7 +716,7 @@ export default function Home() {
           </div>
 
           {/* Input */}
-          <div className="relative z-10 border-t border-emerald-200/80 bg-emerald-950/80 px-4 py-3">
+          <div className="relative z-10 border-t border-lime-300/40 bg-lime-950/55 px-4 py-3 backdrop-blur-xl">
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <input
                 type="text"
@@ -713,8 +727,8 @@ export default function Home() {
                 }
                 className={`flex-1 rounded-2xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lime-300/80 ${
                   isListening
-                    ? 'border-lime-300 bg-emerald-950 text-emerald-50 placeholder-emerald-300 font-mono'
-                    : 'border-emerald-200/90 bg-emerald-900/80 text-emerald-50 placeholder-emerald-200/80'
+                    ? 'border-lime-200 bg-lime-950 text-lime-50 placeholder-lime-200 font-mono'
+                    : 'border-lime-300/70 bg-lime-900/70 text-lime-50 placeholder-lime-200/80'
                 }`}
                 style={{ fontFamily: isListening ? 'monospace' : 'inherit' }}
                 disabled={isLoading}
@@ -723,10 +737,10 @@ export default function Home() {
               <button
                 type="button"
                 onClick={isRecording ? stopRecording : startRecording}
-                className={`flex h-10 w-10 items-center justify-center rounded-full border text-emerald-50 transition ${
+                className={`flex h-10 w-10 items-center justify-center rounded-full border text-lime-50 transition ${
                   isRecording
-                    ? 'border-lime-300 bg-lime-300 text-emerald-950 animate-pulse'
-                    : 'border-emerald-300 bg-emerald-950/90 hover:bg-emerald-900'
+                    ? 'border-lime-200 bg-lime-200 text-lime-900 animate-pulse'
+                    : 'border-lime-300 bg-lime-950/80 hover:bg-lime-900'
                 }`}
                 disabled={isLoading || continuousListening}
                 title={continuousListening ? 'Mic is auto-managed in continuous mode' : 'Push to talk'}
@@ -735,7 +749,7 @@ export default function Home() {
               </button>
               <button
                 type="submit"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-lime-300 bg-lime-300 text-emerald-950 transition hover:bg-lime-200 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-lime-200 bg-lime-200 text-lime-900 transition hover:bg-lime-100 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={!input.trim() || isLoading}
               >
                 <Send size={18} />
