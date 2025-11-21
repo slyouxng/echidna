@@ -508,7 +508,7 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-emerald-900 via-emerald-950 to-slate-950 text-emerald-50"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900 text-emerald-50"
       style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
     >
       {/* Minimal forest backdrop */}
@@ -517,30 +517,30 @@ export default function Home() {
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-emerald-900/80 via-emerald-950/90 to-transparent" />
         {/* tree line */}
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-emerald-900 via-emerald-950/90 to-transparent" />
-        {/* subtle light through trees */}
-        <div className="absolute inset-x-0 top-1/3 h-40 bg-[radial-gradient(circle_at_20%_0,rgba(190,242,100,0.15),transparent_60%),radial-gradient(circle_at_80%_0,rgba(96,165,250,0.12),transparent_55%)]" />
+        {/* subtle forest light, now uniform green */}
+        <div className="absolute inset-x-0 top-1/3 h-40 bg-[radial-gradient(circle_at_20%_0,rgba(16,185,129,0.18),transparent_60%),radial-gradient(circle_at_80%_0,rgba(34,197,94,0.15),transparent_55%)]" />
       </div>
 
       <div className="relative z-10 w-full max-w-4xl px-4 py-10">
-        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-emerald-500/40 bg-emerald-950/70 shadow-[0_0_45px_rgba(16,185,129,0.4)] backdrop-blur-md">
-          {/* chimera aura */}
-          <div className="pointer-events-none absolute left-1/2 top-4 h-44 w-44 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(190,242,100,0.32),transparent_65%)] blur-3xl" />
+        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-emerald-600/40 bg-emerald-950/70 shadow-[0_0_45px_rgba(16,185,129,0.4)] backdrop-blur-md">
+          {/* Echidna aura with gentle breathing (opacity pulse) */}
+          <div className="pointer-events-none absolute left-1/2 top-4 h-40 w-40 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.35),transparent_65%)] blur-3xl animate-pulse" />
 
           {/* Header */}
           <div className="relative flex items-center justify-between border-b border-emerald-800/70 px-5 py-4">
             <div className="flex items-center gap-3">
-              {/* chimera icon: simple but monstrous */}
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-lime-400 shadow-[0_0_15px_rgba(190,242,100,0.7)]">
+              {/* Echidna icon with breathing animation */}
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.7)] animate-pulse">
                 <div className="absolute -top-1 left-1 h-3 w-3 rounded-full bg-emerald-900" />
                 <div className="absolute -top-1 right-1 h-3 w-3 rounded-full bg-emerald-900" />
                 <Bot className="h-5 w-5 text-emerald-950" />
               </div>
               <div>
                 <h1 className="text-lg font-semibold tracking-wide text-emerald-50">
-                  Forest Chimera Oracle
+                  AI POET CHAT
                 </h1>
                 <p className="text-xs text-emerald-200/80">
-                  Ask your question. The chimera answers from the trees.
+                  Chat with Echidna, a creature from the 70s.
                 </p>
               </div>
             </div>
@@ -578,7 +578,7 @@ export default function Home() {
                   disabled={isSpeaking}
                   className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.2em] transition ${
                     continuousListening
-                      ? 'border-lime-300 bg-lime-300 text-emerald-950 shadow-[0_0_10px_rgba(190,242,100,0.7)]'
+                      ? 'border-emerald-300 bg-emerald-300 text-emerald-950 shadow-[0_0_10px_rgba(16,185,129,0.7)]'
                       : 'border-emerald-500/70 bg-transparent text-emerald-200 hover:bg-emerald-800/40'
                   } ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
@@ -594,7 +594,7 @@ export default function Home() {
                   </span>
                 )}
                 {isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/80 bg-emerald-500/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(34,197,94,0.9)]">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/80 bg-emerald-500/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(16,185,129,0.9)]">
                     <Volume2 size={11} className="animate-pulse" />
                     <span>Speaking</span>
                   </span>
@@ -613,9 +613,9 @@ export default function Home() {
           <div className="relative flex-1 overflow-y-auto px-4 py-4 md:px-5 md:py-5">
             {/* subtle vertical tree trunks */}
             <div className="pointer-events-none absolute inset-0 opacity-20">
-              <div className="absolute inset-y-4 left-1/6 w-px bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
-              <div className="absolute inset-y-6 left-1/3 w-[2px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
-              <div className="absolute inset-y-3 right-1/4 w-[1.5px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
+              <div className="absolute inset-y-4 left-[18%] w-px bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
+              <div className="absolute inset-y-6 left-[35%] w-[2px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
+              <div className="absolute inset-y-3 right-[25%] w-[1.5px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
             </div>
 
             <div className="relative flex h-full flex-col space-y-3">
@@ -627,7 +627,7 @@ export default function Home() {
                   }`}
                 >
                   {message.role === 'assistant' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-lime-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.7)]">
                       <Bot size={16} className="text-emerald-950" />
                     </div>
                   )}
@@ -677,7 +677,7 @@ export default function Home() {
 
               {isLoading && (
                 <div className="flex items-center justify-start gap-2">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-lime-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
+                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.7)]">
                     <Bot size={16} className="text-emerald-950" />
                   </div>
                   <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/90 px-3 py-2">
@@ -711,7 +711,7 @@ export default function Home() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={
-                  isListening ? 'The forest is listening... speak now.' : 'Ask the chimera...'
+                  isListening ? 'The forest is listening... speak now.' : 'Ask Echidna a question...'
                 }
                 className={`flex-1 rounded-2xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/70 ${
                   isListening
@@ -727,7 +727,7 @@ export default function Home() {
                 onClick={isRecording ? stopRecording : startRecording}
                 className={`flex h-10 w-10 items-center justify-center rounded-full border text-emerald-50 transition ${
                   isRecording
-                    ? 'border-lime-300 bg-lime-400 text-emerald-950 animate-pulse'
+                    ? 'border-emerald-300 bg-emerald-300 text-emerald-950 animate-pulse'
                     : 'border-emerald-600 bg-emerald-900/80 hover:bg-emerald-800'
                 }`}
                 disabled={isLoading || continuousListening}
