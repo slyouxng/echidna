@@ -495,27 +495,39 @@ export default function Home() {
       }}
     >
       <div className="relative w-full max-w-4xl px-4 py-10">
-        {/* Main chat box: ombré lime/emerald gradient */}
-        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-lime-400/70 bg-gradient-to-b from-lime-800 via-emerald-800 to-lime-500 text-emerald-50 shadow-[0_0_45px_rgba(190,242,100,0.35)]">
-          {/* Simplified inner lime wash over the gradient */}
-          <div className="pointer-events-none absolute inset-0 opacity-25">
-            <div className="absolute inset-0 bg-gradient-to-b from-lime-900/50 via-emerald-800/30 to-lime-400/25" />
+        {/* Main chat box with lichen background */}
+        <div
+          className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-lime-400/70 text-emerald-50 shadow-[0_0_45px_rgba(190,242,100,0.35)]"
+          style={{
+            backgroundImage:
+              'url("https://i.natgeofe.com/n/1fe65dea-bccd-4827-a424-730a1b297e11/Lichen.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          {/* Dark emerald overlay to make text readable */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-emerald-950/90 via-emerald-950/70 to-emerald-900/60" />
+
+          {/* Subtle inner lime wash to keep the mossy feel */}
+          <div className="pointer-events-none absolute inset-0 opacity-40">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0,rgba(190,242,100,0.18),transparent_60%),radial-gradient(circle_at_80%_100%,rgba(190,242,100,0.18),transparent_55%)]" />
           </div>
 
-          {/* Echidna aura + header */}
-          <div className="relative z-10 flex items-center justify-between border-b border-emerald-900/70 bg-emerald-950/40 px-5 py-4">
+          {/* Header with eye */}
+          <div className="relative z-10 flex items-center justify-between border-b border-emerald-900/70 bg-emerald-950/60 px-5 py-4 backdrop-blur-sm">
             <div className="flex items-center gap-3">
-              {/* Eye-like breathing icon */}
+              {/* Eye-like breathing icon, aligned with mouth palette */}
               <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-[0_0_18px_rgba(190,242,100,0.7)] animate-pulse">
                 {/* Eye outline */}
-                <div className="absolute inset-1 rounded-full border-2 border-lime-300/80" />
+                <div className="absolute inset-1 rounded-full border-2 border-lime-300/85" />
                 {/* Eye slit / iris */}
-                <div className="absolute inset-y-2 left-1/2 w-6 -translate-x-1/2 rounded-full bg-emerald-900/80" />
+                <div className="absolute inset-y-2 left-1/2 w-6 -translate-x-1/2 rounded-full bg-emerald-950/90" />
                 {/* Pupil */}
-                <div className="relative h-3.5 w-3.5 rounded-full bg-lime-300 shadow-[0_0_8px_rgba(190,242,100,0.9)] border border-emerald-900" />
-                {/* Tiny highlight */}
-                <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-emerald-50/80" />
-                {/* Invisible Bot icon to keep import "used" */}
+                <div className="relative h-3.5 w-3.5 rounded-full bg-lime-300 shadow-[0_0_10px_rgba(190,242,100,0.9)] border border-emerald-900" />
+                {/* Highlight */}
+                <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-emerald-50/85" />
+                {/* Invisible Bot keeps import "used" */}
                 <Bot className="h-0 w-0 opacity-0" />
               </div>
               <div>
@@ -533,7 +545,7 @@ export default function Home() {
               <label
                 className={`flex items-center gap-2 rounded-full border border-lime-300/80 px-3 py-1 text-[0.65rem] tracking-wide ${
                   isSpeaking ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                } bg-emerald-950/50`}
+                } bg-emerald-950/60 backdrop-blur-sm`}
               >
                 <span className="font-mono uppercase text-emerald-100">
                   Continuous
@@ -592,10 +604,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Message area */}
+          {/* Message area over lichen */}
           <div className="relative z-10 flex-1 overflow-y-auto px-4 py-4 md:px-5 md:py-5">
-            {/* subtle trunks */}
-            <div className="pointer-events-none absolute inset-0 opacity-25">
+            {/* Very subtle vertical structures (like tree trunks / rock cracks) */}
+            <div className="pointer-events-none absolute inset-0 opacity-30">
               <div className="absolute inset-y-4 left-[18%] w-px bg-gradient-to-b from-emerald-800 via-emerald-900 to-emerald-950" />
               <div className="absolute inset-y-6 left-[35%] w-[2px] bg-gradient-to-b from-emerald-800 via-emerald-900 to-emerald-950" />
               <div className="absolute inset-y-3 right-[25%] w-[1.5px] bg-gradient-to-b from-emerald-800 via-emerald-900 to-emerald-950" />
@@ -609,30 +621,42 @@ export default function Home() {
                     message.role === 'user' ? 'justify-end' : 'justify-start'
                   }`}
                 >
+                  {/* Fanged mouth icon for assistant */}
                   {message.role === 'assistant' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/90 border border-emerald-800/80 shadow-[0_0_12px_rgba(190,242,100,0.6)]">
-                      {/* Fanged mouth */}
-                      <div className="relative flex h-5 w-7 items-center justify-center rounded-b-full rounded-t-md bg-emerald-900 overflow-hidden">
-                        {/* Tongue */}
-                        <div className="absolute inset-x-1 bottom-1 h-2 rounded-full bg-rose-500/80" />
-                        {/* Left fang */}
-                        <div className="absolute -top-1 left-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
-                        {/* Right fang */}
-                        <div className="absolute -top-1 right-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
+                    <div className="mt-1 flex h-8 w-12 flex-shrink-0 items-center justify-center">
+                      <div className="relative h-6 w-full rounded-full bg-gradient-to-b from-emerald-700 to-emerald-500 border border-lime-300/85 shadow-[0_0_12px_rgba(190,242,100,0.7)] overflow-hidden">
+                        {/* Inner mouth cavity */}
+                        <div className="absolute inset-x-1 top-1/2 h-3 bg-emerald-950/95 rounded-b-full" />
+                        {/* Top row fangs */}
+                        <div className="absolute inset-x-1 top-1 flex justify-between px-1">
+                          <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                          <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                          <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                          <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                        </div>
+                        {/* Bottom row smaller fangs */}
+                        <div className="absolute inset-x-2 bottom-0 flex justify-between px-1">
+                          <div className="h-1.5 w-1 bg-emerald-50/90 rounded-t-sm" />
+                          <div className="h-1.5 w-1 bg-emerald-50/90 rounded-t-sm" />
+                          <div className="h-1.5 w-1 bg-emerald-50/90 rounded-t-sm" />
+                        </div>
+                        {/* Invisible Bot to keep import used */}
+                        <Bot className="h-0 w-0 opacity-0" />
                       </div>
                     </div>
                   )}
 
+                  {/* Message bubble – semi-translucent "image box" over lichen */}
                   <div
                     className={`flex max-w-[72%] flex-col ${
                       message.role === 'user' ? 'items-end' : 'items-start'
                     }`}
                   >
                     <div
-                      className={`rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-md ${
+                      className={`rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-md backdrop-blur-sm ${
                         message.role === 'user'
-                          ? 'bg-emerald-950/80 text-emerald-50 border border-emerald-800/80'
-                          : 'bg-emerald-50 text-emerald-950 border border-emerald-100'
+                          ? 'bg-emerald-950/70 text-emerald-50 border border-emerald-800/80'
+                          : 'bg-emerald-50/85 text-emerald-950 border border-emerald-100/80'
                       }`}
                     >
                       <p className="whitespace-pre-wrap text-xs md:text-sm">
@@ -643,7 +667,7 @@ export default function Home() {
                     {message.role === 'assistant' && (
                       <button
                         onClick={() => speakText(message.content)}
-                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/90 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-900"
+                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/85 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-900"
                         aria-label="Text to speech"
                       >
                         <Volume2 size={11} />
@@ -659,7 +683,7 @@ export default function Home() {
                   </div>
 
                   {message.role === 'user' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/80 text-emerald-100 border border-emerald-800/80">
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/80 text-emerald-100 border border-emerald-800/80 backdrop-blur-sm">
                       <User size={16} />
                     </div>
                   )}
@@ -668,18 +692,19 @@ export default function Home() {
 
               {isLoading && (
                 <div className="flex items-center justify-start gap-2">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-950/90 border border-emerald-800/80 shadow-[0_0_12px_rgba(190,242,100,0.6)]">
-                    {/* Fanged mouth for loading avatar */}
-                    <div className="relative flex h-5 w-7 items-center justify-center rounded-b-full rounded-t-md bg-emerald-900 overflow-hidden">
-                      {/* Tongue */}
-                      <div className="absolute inset-x-1 bottom-1 h-2 rounded-full bg-rose-500/80" />
-                      {/* Left fang */}
-                      <div className="absolute -top-1 left-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
-                      {/* Right fang */}
-                      <div className="absolute -top-1 right-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
+                  <div className="mt-1 flex h-8 w-12 flex-shrink-0 items-center justify-center">
+                    <div className="relative h-6 w-full rounded-full bg-gradient-to-b from-emerald-700 to-emerald-500 border border-lime-300/85 shadow-[0_0_12px_rgba(190,242,100,0.7)] overflow-hidden">
+                      <div className="absolute inset-x-1 top-1/2 h-3 bg-emerald-950/95 rounded-b-full" />
+                      <div className="absolute inset-x-1 top-1 flex justify-between px-1">
+                        <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                        <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                        <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                        <div className="h-2 w-1.5 bg-emerald-50 rounded-b-sm" />
+                      </div>
+                      <Bot className="h-0 w-0 opacity-0" />
                     </div>
                   </div>
-                  <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/95 px-3 py-2">
+                  <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/90 px-3 py-2 backdrop-blur-sm">
                     <div className="flex gap-1.5">
                       <div
                         className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
@@ -702,8 +727,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Input */}
-          <div className="relative z-10 border-t border-emerald-900/70 bg-emerald-950/80 px-4 py-3">
+          {/* Input bar */}
+          <div className="relative z-10 border-t border-emerald-900/70 bg-emerald-950/75 px-4 py-3 backdrop-blur-sm">
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <input
                 type="text"
