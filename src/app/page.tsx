@@ -508,49 +508,51 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900 text-emerald-50"
+      className="min-h-screen flex items-center justify-center bg-white text-emerald-950"
       style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
     >
-      {/* Minimal forest backdrop */}
-      <div className="pointer-events-none fixed inset-0">
-        {/* distant canopy */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-emerald-900/80 via-emerald-950/90 to-transparent" />
-        {/* tree line */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-emerald-900 via-emerald-950/90 to-transparent" />
-        {/* subtle forest light, now uniform green */}
-        <div className="absolute inset-x-0 top-1/3 h-40 bg-[radial-gradient(circle_at_20%_0,rgba(16,185,129,0.18),transparent_60%),radial-gradient(circle_at_80%_0,rgba(34,197,94,0.15),transparent_55%)]" />
-      </div>
+      <div className="relative w-full max-w-4xl px-4 py-10">
+        {/* Main chat box: dark green with lime accents */}
+        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-lime-400/70 bg-emerald-950 text-emerald-50 shadow-[0_0_45px_rgba(190,242,100,0.35)]">
+          {/* Forest-like inner backdrop (inside the dark box) */}
+          <div className="pointer-events-none absolute inset-0 opacity-20">
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-emerald-900 via-emerald-950 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-emerald-900 via-emerald-950 to-transparent" />
+            <div className="absolute inset-x-0 top-1/3 h-32 bg-[radial-gradient(circle_at_20%_0,rgba(190,242,100,0.24),transparent_60%),radial-gradient(circle_at_80%_0,rgba(190,242,100,0.18),transparent_55%)]" />
+          </div>
 
-      <div className="relative z-10 w-full max-w-4xl px-4 py-10">
-        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-emerald-600/40 bg-emerald-950/70 shadow-[0_0_45px_rgba(16,185,129,0.4)] backdrop-blur-md">
-          {/* Echidna aura with gentle breathing (opacity pulse) */}
-          <div className="pointer-events-none absolute left-1/2 top-4 h-40 w-40 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.35),transparent_65%)] blur-3xl animate-pulse" />
-
-          {/* Header */}
-          <div className="relative flex items-center justify-between border-b border-emerald-800/70 px-5 py-4">
+          {/* Echidna aura + header */}
+          <div className="relative z-10 flex items-center justify-between border-b border-emerald-800/80 px-5 py-4">
             <div className="flex items-center gap-3">
-              {/* Echidna icon with breathing animation */}
-              <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.7)] animate-pulse">
-                <div className="absolute -top-1 left-1 h-3 w-3 rounded-full bg-emerald-900" />
-                <div className="absolute -top-1 right-1 h-3 w-3 rounded-full bg-emerald-900" />
-                <Bot className="h-5 w-5 text-emerald-950" />
+              {/* Eye-like breathing icon */}
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-[0_0_18px_rgba(190,242,100,0.7)] animate-pulse">
+                {/* Eye outline */}
+                <div className="absolute inset-1 rounded-full border-2 border-lime-300/80" />
+                {/* Eye slit / iris */}
+                <div className="absolute inset-y-2 left-1/2 w-6 -translate-x-1/2 rounded-full bg-emerald-900/80" />
+                {/* Pupil */}
+                <div className="relative h-3.5 w-3.5 rounded-full bg-lime-300 shadow-[0_0_8px_rgba(190,242,100,0.9)] border border-emerald-900" />
+                {/* Tiny highlight */}
+                <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-emerald-50/80" />
+                {/* Invisible Bot icon to keep import "used" */}
+                <Bot className="h-0 w-0 opacity-0" />
               </div>
               <div>
                 <h1 className="text-lg font-semibold tracking-wide text-emerald-50">
                   AI POET CHAT
                 </h1>
-                <p className="text-xs text-emerald-200/80">
+                <p className="text-xs text-emerald-200/85">
                   Chat with Echidna, a creature from the 70s.
                 </p>
               </div>
             </div>
 
-            {/* Continuous listen + status */}
+            {/* Continuous listen + status, lime-accented */}
             <div className="flex flex-col items-end gap-1">
               <label
-                className={`flex items-center gap-2 rounded-full border border-emerald-500/70 px-3 py-1 text-[0.65rem] tracking-wide ${
+                className={`flex items-center gap-2 rounded-full border border-lime-400/70 px-3 py-1 text-[0.65rem] tracking-wide ${
                   isSpeaking ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                } bg-emerald-950/70`}
+                } bg-emerald-950/80`}
               >
                 <span className="font-mono uppercase text-emerald-200">
                   Continuous
@@ -578,8 +580,8 @@ export default function Home() {
                   disabled={isSpeaking}
                   className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.2em] transition ${
                     continuousListening
-                      ? 'border-emerald-300 bg-emerald-300 text-emerald-950 shadow-[0_0_10px_rgba(16,185,129,0.7)]'
-                      : 'border-emerald-500/70 bg-transparent text-emerald-200 hover:bg-emerald-800/40'
+                      ? 'border-lime-300 bg-lime-300 text-emerald-950 shadow-[0_0_10px_rgba(190,242,100,0.7)]'
+                      : 'border-lime-400/70 bg-transparent text-emerald-200 hover:bg-emerald-900/60'
                   } ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {continuousListening ? 'On' : 'Off'}
@@ -588,20 +590,20 @@ export default function Home() {
 
               <div className="flex gap-2">
                 {isListening && !isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/80 bg-emerald-900/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-900/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100">
                     <Mic size={11} className="animate-pulse" />
                     <span>Listening</span>
                   </span>
                 )}
                 {isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/80 bg-emerald-500/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(16,185,129,0.9)]">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-lime-400/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(190,242,100,0.9)]">
                     <Volume2 size={11} className="animate-pulse" />
                     <span>Speaking</span>
                   </span>
                 )}
                 {continuousListening && !isListening && !isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/70 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-200/80">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-400/70 bg-emerald-950/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-200/90">
+                    <span className="h-1.5 w-1.5 rounded-full bg-lime-300" />
                     <span>Idle</span>
                   </span>
                 )}
@@ -609,10 +611,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Message area: forest clearing */}
-          <div className="relative flex-1 overflow-y-auto px-4 py-4 md:px-5 md:py-5">
-            {/* subtle vertical tree trunks */}
-            <div className="pointer-events-none absolute inset-0 opacity-20">
+          {/* Message area */}
+          <div className="relative z-10 flex-1 overflow-y-auto px-4 py-4 md:px-5 md:py-5">
+            {/* subtle vertical tree trunks inside */}
+            <div className="pointer-events-none absolute inset-0 opacity-25">
               <div className="absolute inset-y-4 left-[18%] w-px bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
               <div className="absolute inset-y-6 left-[35%] w-[2px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
               <div className="absolute inset-y-3 right-[25%] w-[1.5px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
@@ -627,7 +629,7 @@ export default function Home() {
                   }`}
                 >
                   {message.role === 'assistant' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.7)]">
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
                       <Bot size={16} className="text-emerald-950" />
                     </div>
                   )}
@@ -652,7 +654,7 @@ export default function Home() {
                     {message.role === 'assistant' && (
                       <button
                         onClick={() => speakText(message.content)}
-                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-emerald-300/80 bg-emerald-950/80 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-900"
+                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/90 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-900"
                         aria-label="Text to speech"
                       >
                         <Volume2 size={11} />
@@ -668,7 +670,7 @@ export default function Home() {
                   </div>
 
                   {message.role === 'user' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-900/80 text-emerald-100 border border-emerald-700/80">
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-900/90 text-emerald-100 border border-emerald-700/80">
                       <User size={16} />
                     </div>
                   )}
@@ -677,10 +679,10 @@ export default function Home() {
 
               {isLoading && (
                 <div className="flex items-center justify-start gap-2">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.7)]">
+                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
                     <Bot size={16} className="text-emerald-950" />
                   </div>
-                  <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/90 px-3 py-2">
+                  <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/95 px-3 py-2">
                     <div className="flex gap-1.5">
                       <div
                         className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
@@ -704,7 +706,7 @@ export default function Home() {
           </div>
 
           {/* Input at forest floor */}
-          <div className="border-t border-emerald-800/70 bg-emerald-950/80 px-4 py-3">
+          <div className="relative z-10 border-t border-emerald-800/80 bg-emerald-950/95 px-4 py-3">
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <input
                 type="text"
@@ -713,10 +715,10 @@ export default function Home() {
                 placeholder={
                   isListening ? 'The forest is listening... speak now.' : 'Ask Echidna a question...'
                 }
-                className={`flex-1 rounded-2xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/70 ${
+                className={`flex-1 rounded-2xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lime-300/80 ${
                   isListening
-                    ? 'border-emerald-500 bg-emerald-950 text-emerald-50 placeholder-emerald-300 font-mono'
-                    : 'border-emerald-700/70 bg-emerald-900/60 text-emerald-50 placeholder-emerald-300/70'
+                    ? 'border-lime-300 bg-emerald-950 text-emerald-50 placeholder-emerald-300 font-mono'
+                    : 'border-emerald-700/80 bg-emerald-900/70 text-emerald-50 placeholder-emerald-300/80'
                 }`}
                 style={{ fontFamily: isListening ? 'monospace' : 'inherit' }}
                 disabled={isLoading}
@@ -727,8 +729,8 @@ export default function Home() {
                 onClick={isRecording ? stopRecording : startRecording}
                 className={`flex h-10 w-10 items-center justify-center rounded-full border text-emerald-50 transition ${
                   isRecording
-                    ? 'border-emerald-300 bg-emerald-300 text-emerald-950 animate-pulse'
-                    : 'border-emerald-600 bg-emerald-900/80 hover:bg-emerald-800'
+                    ? 'border-lime-300 bg-lime-300 text-emerald-950 animate-pulse'
+                    : 'border-emerald-600 bg-emerald-900/90 hover:bg-emerald-800'
                 }`}
                 disabled={isLoading || continuousListening}
                 title={continuousListening ? 'Mic is auto-managed in continuous mode' : 'Push to talk'}
@@ -737,7 +739,7 @@ export default function Home() {
               </button>
               <button
                 type="submit"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-emerald-500 bg-emerald-400 text-emerald-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-lime-400 bg-lime-300 text-emerald-950 transition hover:bg-lime-200 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={!input.trim() || isLoading}
               >
                 <Send size={18} />
