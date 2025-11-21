@@ -120,6 +120,7 @@ export default function Home() {
     }
   };
 
+  // Initialize Speech Recognition once on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const SpeechRecognition =
@@ -222,6 +223,7 @@ export default function Home() {
     }
   };
 
+  // Handle continuous listening restart after speech ends or AI finishes speaking
   useEffect(() => {
     if (continuousListening && !isSpeaking && !isListening && !isLoading) {
       console.log('Restarting speech recognition for continuous mode');
@@ -494,269 +496,288 @@ export default function Home() {
           'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
       }}
     >
-      <div className="w-full max-w-4xl px-4 py-10">
-        {/* Circular lichen oracle window */}
-        <div className="relative mx-auto aspect-square w-full max-w-3xl rounded-full border border-lime-300/80 overflow-hidden shadow-[0_0_45px_rgba(190,242,100,0.4)] text-emerald-50">
-          {/* Lichen background + lime tint */}
+      <div className="relative w-full max-w-4xl px-4 py-10">
+        {/* Main chat box: square-ish, lichen image background with lime tint */}
+        <div
+          className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-lime-300/70 text-emerald-50 shadow-[0_0_45px_rgba(190,242,100,0.35)] bg-emerald-950"
+          style={{
+            backgroundImage:
+              'url("https://i0.wp.com/blog.education.nationalgeographic.org/wp-content/uploads/2014/02/31240.jpg?fit=990%2C742&ssl=1&w=640")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          {/* Lime tint + subtle dark gradient for readability */}
           <div className="pointer-events-none absolute inset-0">
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-80"
-              style={{
-                backgroundImage:
-                  'url("https://i0.wp.com/blog.education.nationalgeographic.org/wp-content/uploads/2014/02/31240.jpg?fit=990%2C742&ssl=1&w=640")',
-              }}
-            />
-            <div className="absolute inset-0 bg-lime-900/40 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-lime-900/35 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-gradient-to-b from-emerald-950/70 via-emerald-950/40 to-emerald-900/85" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0,rgba(190,242,100,0.22),transparent_60%),radial-gradient(circle_at_80%_0,rgba(190,242,100,0.18),transparent_60%)]" />
           </div>
 
-          {/* Content inside circle */}
-          <div className="relative z-10 flex h-full flex-col">
-            {/* Top arc: eye + controls */}
-            <div className="flex items-center justify-between px-6 pt-6 pb-3 bg-emerald-950/50">
-              <div className="flex items-center gap-3">
-                {/* Eye icon, matching mouth colors */}
-                <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-500 border-2 border-lime-300 shadow-[0_0_20px_rgba(190,242,100,0.8)] animate-pulse">
-                  {/* Eye outline */}
-                  <div className="absolute inset-1 rounded-full border border-lime-200/90" />
-                  {/* Eye ellipse */}
-                  <div className="absolute inset-y-2 left-1/2 w-7 -translate-x-1/2 rounded-full bg-emerald-950/90 border border-lime-400/60" />
-                  {/* Pupil */}
-                  <div className="relative h-3.5 w-3.5 rounded-full bg-lime-300 border border-emerald-900 shadow-[0_0_10px_rgba(190,242,100,0.9)]" />
-                  {/* Highlight */}
-                  <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-emerald-50/85" />
-                  {/* Invisible Bot to keep import "used" */}
-                  <Bot className="h-0 w-0 opacity-0" />
-                </div>
-                <div>
-                  <h1 className="text-base font-semibold tracking-wide text-lime-50">
-                    AI POET CHAT
-                  </h1>
-                  <p className="text-[0.7rem] text-lime-100/90">
-                    Chat with Echidna, a creature from the 70s.
-                  </p>
-                </div>
+          {/* Header with lichen eye */}
+          <div className="relative z-10 flex items-center justify-between border-b border-emerald-900/70 bg-emerald-950/70 px-5 py-4">
+            <div className="flex items-center gap-3">
+              {/* Lichen eye with gentle breathing */}
+              <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-lime-500 to-emerald-500 shadow-[0_0_20px_rgba(190,242,100,0.8)] animate-pulse">
+                {/* Outer organic rim */}
+                <div className="absolute inset-0 rounded-full border border-lime-200/60 shadow-[0_0_12px_rgba(190,242,100,0.6)]" />
+                {/* Inner iris shape */}
+                <div className="absolute inset-1 rounded-full bg-gradient-to-b from-emerald-950 to-emerald-900" />
+                {/* Vertical slit / pupil */}
+                <div className="absolute inset-y-2 left-1/2 w-5 -translate-x-1/2 rounded-full bg-emerald-950 shadow-[0_0_10px_rgba(15,23,42,0.9)]" />
+                {/* Bright lichen pupil core */}
+                <div className="relative h-3.5 w-3.5 rounded-full bg-lime-300 border border-emerald-900 shadow-[0_0_10px_rgba(190,242,100,1)]" />
+                {/* Little highlight blob */}
+                <div className="absolute top-2 left-2 h-1.5 w-1.5 rounded-full bg-lime-100/90" />
+                {/* Hidden Bot icon keeps import from being "unused" */}
+                <Bot className="h-0 w-0 opacity-0" />
               </div>
-
-              {/* Continuous listen / statuses */}
-              <div className="flex flex-col items-end gap-1">
-                <label
-                  className={`flex items-center gap-2 rounded-full border border-lime-300/80 px-3 py-1 text-[0.65rem] tracking-wide ${
-                    isSpeaking ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                  } bg-emerald-950/60`}
-                >
-                  <span className="font-mono uppercase text-emerald-100">
-                    Continuous
-                  </span>
-                  <button
-                    onClick={async () => {
-                      if (isSpeaking) return;
-                      const newValue = !continuousListening;
-                      if (newValue) {
-                        try {
-                          await navigator.mediaDevices.getUserMedia({ audio: true });
-                          console.log('Microphone permission granted');
-                          setContinuousListening(true);
-                          startSpeechRecognition();
-                        } catch (error) {
-                          console.error('Microphone permission denied:', error);
-                          alert('Please allow microphone access to use speech recognition');
-                        }
-                      } else {
-                        setContinuousListening(false);
-                        stopSpeechRecognition();
-                        setInput('');
-                      }
-                    }}
-                    disabled={isSpeaking}
-                    className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.2em] transition ${
-                      continuousListening
-                        ? 'border-lime-200 bg-lime-200 text-emerald-950 shadow-[0_0_10px_rgba(190,242,100,0.7)]'
-                        : 'border-lime-300/80 bg-transparent text-emerald-100 hover:bg-emerald-900/60'
-                    } ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
-                    {continuousListening ? 'On' : 'Off'}
-                  </button>
-                </label>
-
-                <div className="flex gap-2">
-                  {isListening && !isSpeaking && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100">
-                      <Mic size={11} className="animate-pulse" />
-                      <span>Listening</span>
-                    </span>
-                  )}
-                  {isSpeaking && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-lime-300/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(190,242,100,0.9)]">
-                      <Volume2 size={11} className="animate-pulse" />
-                      <span>Speaking</span>
-                    </span>
-                  )}
-                  {continuousListening && !isListening && !isSpeaking && (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100/90">
-                      <span className="h-1.5 w-1.5 rounded-full bg-lime-300" />
-                      <span>Idle</span>
-                    </span>
-                  )}
-                </div>
+              <div>
+                <h1 className="text-lg font-semibold tracking-wide text-lime-50">
+                  AI POET CHAT
+                </h1>
+                <p className="text-xs text-lime-100/90">
+                  Chat with Echidna, a creature from the 70s.
+                </p>
               </div>
             </div>
 
-            {/* Middle band: messages */}
-            <div className="relative flex-1 overflow-y-auto px-5 py-3">
-              {/* faint vertical forms to mimic trunks / strands */}
-              <div className="pointer-events-none absolute inset-0 opacity-30">
-                <div className="absolute inset-y-4 left-[20%] w-px bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900" />
-                <div className="absolute inset-y-3 left-[50%] w-[2px] bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900" />
-                <div className="absolute inset-y-5 right-[22%] w-[1.5px] bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900" />
-              </div>
+            {/* Continuous listen + status */}
+            <div className="flex flex-col items-end gap-1">
+              <label
+                className={`flex items-center gap-2 rounded-full border border-lime-300/80 px-3 py-1 text-[0.65rem] tracking-wide ${
+                  isSpeaking ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                } bg-emerald-950/80`}
+              >
+                <span className="font-mono uppercase text-lime-100">
+                  Continuous
+                </span>
+                <button
+                  onClick={async () => {
+                    if (isSpeaking) return;
+                    const newValue = !continuousListening;
+                    if (newValue) {
+                      try {
+                        await navigator.mediaDevices.getUserMedia({ audio: true });
+                        console.log('Microphone permission granted');
+                        setContinuousListening(true);
+                        startSpeechRecognition();
+                      } catch (error) {
+                        console.error('Microphone permission denied:', error);
+                        alert('Please allow microphone access to use speech recognition');
+                      }
+                    } else {
+                      setContinuousListening(false);
+                      stopSpeechRecognition();
+                      setInput('');
+                    }
+                  }}
+                  disabled={isSpeaking}
+                  className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.2em] transition ${
+                    continuousListening
+                      ? 'border-lime-200 bg-lime-200 text-emerald-950 shadow-[0_0_10px_rgba(190,242,100,0.8)]'
+                      : 'border-lime-300/80 bg-transparent text-lime-100 hover:bg-emerald-900/60'
+                  } ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {continuousListening ? 'On' : 'Off'}
+                </button>
+              </label>
 
-              <div className="relative flex h-full flex-col space-y-3">
-                {messages.slice(1).map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex items-start gap-2 ${
-                      message.role === 'user' ? 'justify-end' : 'justify-start'
-                    }`}
-                  >
-                    {message.role === 'assistant' && (
-                      <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 border border-lime-300 shadow-[0_0_14px_rgba(190,242,100,0.8)]">
-                        {/* fanged mouth, aligned with eye palette */}
-                        <div className="relative h-5 w-7 rounded-b-full bg-emerald-950 border-t-2 border-lime-300 flex items-end justify-center overflow-hidden">
-                          {/* left fang */}
-                          <div className="absolute bottom-0 left-1 h-2.5 w-1.5 bg-lime-200 rounded-b-sm skew-x-[-8deg]" />
-                          {/* right fang */}
-                          <div className="absolute bottom-0 right-1 h-2.5 w-1.5 bg-lime-200 rounded-b-sm skew-x-[8deg]" />
-                          {/* tiny tongue hint */}
-                          <div className="absolute bottom-0 h-1.5 w-3 rounded-t-full bg-emerald-700/90" />
+              <div className="flex gap-2">
+                {isListening && !isSpeaking && (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/90 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-lime-100">
+                    <Mic size={11} className="animate-pulse" />
+                    <span>Listening</span>
+                  </span>
+                )}
+                {isSpeaking && (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/90 bg-lime-300/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(190,242,100,0.9)]">
+                    <Volume2 size={11} className="animate-pulse" />
+                    <span>Speaking</span>
+                  </span>
+                )}
+                {continuousListening && !isListening && !isSpeaking && (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-lime-100/90">
+                    <span className="h-1.5 w-1.5 rounded-full bg-lime-300" />
+                    <span>Idle</span>
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Message area */}
+          <div className="relative z-10 flex-1 overflow-y-auto px-4 py-4 md:px-5 md:py-5">
+            {/* faint vertical “trunks” */}
+            <div className="pointer-events-none absolute inset-0 opacity-25">
+              <div className="absolute inset-y-4 left-[18%] w-px bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900" />
+              <div className="absolute inset-y-6 left-[36%] w-[2px] bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900" />
+              <div className="absolute inset-y-3 right-[24%] w-[1.5px] bg-gradient-to-b from-emerald-900 via-emerald-950 to-emerald-900" />
+            </div>
+
+            <div className="relative flex h-full flex-col space-y-3">
+              {messages.slice(1).map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex items-start gap-2 ${
+                    message.role === 'user' ? 'justify-end' : 'justify-start'
+                  }`}
+                >
+                  {message.role === 'assistant' && (
+                    // Lichen fanged mouth avatar
+                    <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center">
+                      <div className="relative h-9 w-9 rounded-full bg-gradient-to-br from-emerald-900 to-emerald-800 shadow-[0_0_12px_rgba(15,23,42,0.9)] border border-lime-300/70 flex items-center justify-center">
+                        {/* Organic lip / mouth shape */}
+                        <div className="relative h-5 w-7 rounded-full bg-gradient-to-b from-lime-400 to-emerald-700 shadow-[0_0_10px_rgba(190,242,100,0.7)] border border-emerald-900/80 overflow-hidden">
+                          {/* Upper teeth */}
+                          <div className="absolute inset-x-0 top-0 flex justify-between px-1 pt-0.5">
+                            <div className="h-2 w-1.5 bg-white/95 rounded-b-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                            <div className="h-2 w-1.5 bg-white/95 rounded-b-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                            <div className="h-2 w-1.5 bg-white/95 rounded-b-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                            <div className="h-2 w-1.5 bg-white/95 rounded-b-[6px] shadow-[0_1px_2px_rgba(0,0,0,0.5)]" />
+                          </div>
+                          {/* Mouth cavity */}
+                          <div className="absolute inset-x-0 bottom-0 h-3.5 rounded-t-full bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950" />
+                          {/* Tongue / lichen glow */}
+                          <div className="absolute inset-x-2 bottom-0 h-2 rounded-t-full bg-gradient-to-t from-lime-300/90 via-lime-200/90 to-lime-100/80 opacity-90" />
+                          {/* Lower fangs (smaller) */}
+                          <div className="absolute inset-x-0 bottom-[2px] flex justify-center gap-2 px-1">
+                            <div className="h-2 w-1.5 bg-white/95 rounded-t-[6px] shadow-[0_-1px_2px_rgba(0,0,0,0.5)]" />
+                            <div className="h-2 w-1.5 bg-white/95 rounded-t-[6px] shadow-[0_-1px_2px_rgba(0,0,0,0.5)]" />
+                          </div>
                         </div>
-                        {/* invisible Bot keeps import used */}
+                        {/* Subtle green highlight on the lip */}
+                        <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_20%,rgba(190,242,100,0.15),transparent_55%)]" />
+                        {/* Hidden Bot icon keeps import "used" */}
                         <Bot className="h-0 w-0 opacity-0" />
                       </div>
-                    )}
+                    </div>
+                  )}
 
+                  <div
+                    className={`flex max-w-[72%] flex-col ${
+                      message.role === 'user' ? 'items-end' : 'items-start'
+                    }`}
+                  >
                     <div
-                      className={`flex max-w-[70%] flex-col ${
-                        message.role === 'user' ? 'items-end' : 'items-start'
+                      className={`rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-md ${
+                        message.role === 'user'
+                          ? 'bg-emerald-950/90 text-lime-50 border border-emerald-900/80'
+                          : 'bg-lime-50/95 text-emerald-950 border border-lime-200/80'
                       }`}
                     >
-                      <div
-                        className={`rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-md ${
-                          message.role === 'user'
-                            ? 'bg-emerald-950/85 text-emerald-50 border border-emerald-900/80'
-                            : 'bg-emerald-50 text-emerald-950 border border-emerald-100/80'
-                        }`}
-                      >
-                        <p className="whitespace-pre-wrap text-xs md:text-sm">
-                          {message.content}
-                        </p>
-                      </div>
-
-                      {message.role === 'assistant' && (
-                        <button
-                          onClick={() => speakText(message.content)}
-                          className="mt-1 inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/85 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-emerald-100 transition hover:bg-emerald-900/95"
-                          aria-label="Text to speech"
-                        >
-                          <Volume2 size={11} />
-                          <span>Listen</span>
-                        </button>
-                      )}
-
-                      {message.timestamp && (
-                        <span className="mt-1 text-[0.6rem] font-mono text-emerald-100/80">
-                          {new Date(message.timestamp).toLocaleTimeString()}
-                        </span>
-                      )}
+                      <p className="whitespace-pre-wrap text-xs md:text-sm">
+                        {message.content}
+                      </p>
                     </div>
 
-                    {message.role === 'user' && (
-                      <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/80 text-emerald-100 border border-emerald-900/80">
-                        <User size={16} />
-                      </div>
+                    {message.role === 'assistant' && (
+                      <button
+                        onClick={() => speakText(message.content)}
+                        className="mt-1 inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/90 px-2.5 py-0.5 text-[0.65rem] font-mono uppercase tracking-[0.18em] text-lime-100 transition hover:bg-emerald-900"
+                        aria-label="Text to speech"
+                      >
+                        <Volume2 size={11} />
+                        <span>Listen</span>
+                      </button>
+                    )}
+
+                    {message.timestamp && (
+                      <span className="mt-1 text-[0.6rem] font-mono text-lime-100/80">
+                        {new Date(message.timestamp).toLocaleTimeString()}
+                      </span>
                     )}
                   </div>
-                ))}
 
-                {isLoading && (
-                  <div className="flex items-center justify-start gap-2">
-                    <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-emerald-800 to-emerald-950 border border-lime-300 shadow-[0_0_14px_rgba(190,242,100,0.8)]">
-                      <div className="relative h-5 w-7 rounded-b-full bg-emerald-950 border-t-2 border-lime-300 flex items-end justify-center overflow-hidden">
-                        <div className="absolute bottom-0 left-1 h-2.5 w-1.5 bg-lime-200 rounded-b-sm skew-x-[-8deg]" />
-                        <div className="absolute bottom-0 right-1 h-2.5 w-1.5 bg-lime-200 rounded-b-sm skew-x-[8deg]" />
-                        <div className="absolute bottom-0 h-1.5 w-3 rounded-t-full bg-emerald-700/90" />
+                  {message.role === 'user' && (
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/80 text-lime-100 border border-emerald-900/80">
+                      <User size={16} />
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {isLoading && (
+                <div className="flex items-center justify-start gap-2">
+                  {/* Loading mouth avatar */}
+                  <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center">
+                    <div className="relative h-9 w-9 rounded-full bg-gradient-to-br from-emerald-900 to-emerald-800 shadow-[0_0_12px_rgba(15,23,42,0.9)] border border-lime-300/70 flex items-center justify-center">
+                      <div className="relative h-5 w-7 rounded-full bg-gradient-to-b from-lime-400 to-emerald-700 shadow-[0_0_10px_rgba(190,242,100,0.7)] border border-emerald-900/80 overflow-hidden opacity-80">
+                        <div className="absolute inset-x-0 top-0 flex justify-between px-1 pt-0.5">
+                          <div className="h-2 w-1.5 bg-white/80 rounded-b-[6px]" />
+                          <div className="h-2 w-1.5 bg-white/80 rounded-b-[6px]" />
+                          <div className="h-2 w-1.5 bg-white/80 rounded-b-[6px]" />
+                          <div className="h-2 w-1.5 bg-white/80 rounded-b-[6px]" />
+                        </div>
+                        <div className="absolute inset-x-0 bottom-0 h-3.5 rounded-t-full bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950" />
+                        <div className="absolute inset-x-2 bottom-0 h-2 rounded-t-full bg-gradient-to-t from-lime-300/80 via-lime-200/80 to-lime-100/70" />
                       </div>
                       <Bot className="h-0 w-0 opacity-0" />
                     </div>
-                    <div className="rounded-2xl border border-emerald-200/80 bg-emerald-50/95 px-3 py-2">
-                      <div className="flex gap-1.5">
-                        <div
-                          className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
-                          style={{ animationDelay: '0ms' }}
-                        />
-                        <div
-                          className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
-                          style={{ animationDelay: '150ms' }}
-                        />
-                        <div
-                          className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
-                          style={{ animationDelay: '300ms' }}
-                        />
-                      </div>
+                  </div>
+                  <div className="rounded-2xl border border-lime-200/70 bg-lime-50/95 px-3 py-2">
+                    <div className="flex gap-1.5">
+                      <div
+                        className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
+                        style={{ animationDelay: '0ms' }}
+                      />
+                      <div
+                        className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
+                        style={{ animationDelay: '150ms' }}
+                      />
+                      <div
+                        className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-bounce"
+                        style={{ animationDelay: '300ms' }}
+                      />
                     </div>
                   </div>
-                )}
+                </div>
+              )}
 
-                <div ref={messagesEndRef} />
-              </div>
+              <div ref={messagesEndRef} />
             </div>
+          </div>
 
-            {/* Bottom arc: input */}
-            <div className="px-5 pb-6 pt-3 bg-emerald-950/70">
-              <form onSubmit={handleSubmit} className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder={
-                    isListening
-                      ? 'The lichen listens... speak now.'
-                      : 'Ask Echidna a question...'
-                  }
-                  className={`flex-1 rounded-2xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lime-300/80 ${
-                    isListening
-                      ? 'border-lime-300 bg-emerald-950 text-emerald-50 placeholder-emerald-300 font-mono'
-                      : 'border-emerald-900/80 bg-emerald-900/80 text-emerald-50 placeholder-emerald-200/80'
-                  }`}
-                  style={{ fontFamily: isListening ? 'monospace' : 'inherit' }}
-                  disabled={isLoading}
-                  readOnly={isListening}
-                />
-                <button
-                  type="button"
-                  onClick={isRecording ? stopRecording : startRecording}
-                  className={`flex h-10 w-10 items-center justify-center rounded-full border text-emerald-50 transition ${
-                    isRecording
-                      ? 'border-lime-300 bg-lime-300 text-emerald-950 animate-pulse'
-                      : 'border-emerald-800 bg-emerald-950/90 hover:bg-emerald-900'
-                  }`}
-                  disabled={isLoading || continuousListening}
-                  title={
-                    continuousListening
-                      ? 'Mic is auto-managed in continuous mode'
-                      : 'Push to talk'
-                  }
-                >
-                  {isRecording ? <Square size={18} /> : <Mic size={18} />}
-                </button>
-                <button
-                  type="submit"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-lime-300 bg-lime-300 text-emerald-950 transition hover:bg-lime-200 disabled:cursor-not-allowed disabled:opacity-50"
-                  disabled={!input.trim() || isLoading}
-                >
-                  <Send size={18} />
-                </button>
-              </form>
-            </div>
+          {/* Input */}
+          <div className="relative z-10 border-t border-emerald-900/70 bg-emerald-950/90 px-4 py-3">
+            <form onSubmit={handleSubmit} className="flex items-center gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={
+                  isListening ? 'The forest is listening... speak now.' : 'Ask Echidna a question...'
+                }
+                className={`flex-1 rounded-2xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lime-300/80 ${
+                  isListening
+                    ? 'border-lime-300 bg-emerald-950 text-lime-50 placeholder-lime-200 font-mono'
+                    : 'border-emerald-800/80 bg-emerald-900/80 text-lime-50 placeholder-lime-200/80'
+                }`}
+                style={{ fontFamily: isListening ? 'monospace' : 'inherit' }}
+                disabled={isLoading}
+                readOnly={isListening}
+              />
+              <button
+                type="button"
+                onClick={isRecording ? stopRecording : startRecording}
+                className={`flex h-10 w-10 items-center justify-center rounded-full border text-lime-50 transition ${
+                  isRecording
+                    ? 'border-lime-300 bg-lime-300 text-emerald-950 animate-pulse'
+                    : 'border-emerald-700 bg-emerald-950/90 hover:bg-emerald-900'
+                }`}
+                disabled={isLoading || continuousListening}
+                title={continuousListening ? 'Mic is auto-managed in continuous mode' : 'Push to talk'}
+              >
+                {isRecording ? <Square size={18} /> : <Mic size={18} />}
+              </button>
+              <button
+                type="submit"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-lime-300 bg-lime-300 text-emerald-950 transition hover:bg-lime-200 disabled:cursor-not-allowed disabled:opacity-50"
+                disabled={!input.trim() || isLoading}
+              >
+                <Send size={18} />
+              </button>
+            </form>
           </div>
         </div>
       </div>
