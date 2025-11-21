@@ -43,7 +43,6 @@ export default function Home() {
     scrollToBottom();
   }, [messages]);
 
-  // Keep refs in sync with state
   useEffect(() => {
     continuousListeningRef.current = continuousListening;
   }, [continuousListening]);
@@ -52,7 +51,6 @@ export default function Home() {
     messagesRef.current = messages;
   }, [messages]);
 
-  // Handle auto-submit from speech recognition with fresh state
   const handleAutoSubmit = async (text: string) => {
     if (!text.trim() || isLoading) return;
 
@@ -101,7 +99,6 @@ export default function Home() {
         },
       ]);
 
-      // ALWAYS auto-speak when called from speech recognition
       console.log('Auto-speaking response:', assistantMessage.content);
       await speakText(assistantMessage.content);
     } catch (error) {
@@ -116,17 +113,17 @@ export default function Home() {
           id: `error-${Date.now()}`,
         },
       ]);
-      
+
       await speakText(errorMsg);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Initialize Speech Recognition once on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition();
         recognition.continuous = true;
@@ -153,22 +150,18 @@ export default function Home() {
             }
           }
 
-          // Show live transcription in input box
           if (interimTranscript) {
             console.log('Setting interim transcript:', interimTranscript);
             setInput(interimTranscript);
           }
 
-          // When we get a final result (after silence), auto-submit
           if (finalTranscript) {
             const fullText = finalTranscript.trim();
             console.log('Final transcript received:', fullText);
             console.log('Continuous listening ref:', continuousListeningRef.current);
             if (fullText && continuousListeningRef.current) {
               setInput(fullText);
-              // Stop listening while we process
               recognition.stop();
-              // Auto-submit after a brief delay
               setTimeout(() => {
                 console.log('Auto-submitting message:', fullText);
                 handleAutoSubmit(fullText);
@@ -229,7 +222,6 @@ export default function Home() {
     }
   };
 
-  // Handle continuous listening restart after speech ends or AI finishes speaking
   useEffect(() => {
     if (continuousListening && !isSpeaking && !isListening && !isLoading) {
       console.log('Restarting speech recognition for continuous mode');
@@ -242,7 +234,6 @@ export default function Home() {
 
   const startRecording = async () => {
     try {
-      // If we already have a stream in continuous mode, just start a new recording
       if (continuousListening && streamRef.current) {
         const mediaRecorder = new MediaRecorder(streamRef.current);
         mediaRecorderRef.current = mediaRecorder;
@@ -255,8 +246,7 @@ export default function Home() {
         mediaRecorder.onstop = async () => {
           const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
           await transcribeAudio(audioBlob);
-          
-          // In continuous mode, restart recording after transcription (unless speaking)
+
           if (continuousListening && !isSpeaking) {
             setTimeout(() => startRecording(), 100);
           }
@@ -267,10 +257,9 @@ export default function Home() {
         return;
       }
 
-      // Initial setup - get the stream
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
-      
+
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
@@ -282,12 +271,10 @@ export default function Home() {
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(chunksRef.current, { type: 'audio/webm' });
         await transcribeAudio(audioBlob);
-        
-        // In continuous mode, restart recording after transcription (unless speaking)
+
         if (continuousListening && !isSpeaking) {
           setTimeout(() => startRecording(), 100);
         } else if (!continuousListening) {
-          // Clean up stream if not in continuous mode
           stream.getTracks().forEach((track) => track.stop());
           streamRef.current = null;
         }
@@ -349,11 +336,9 @@ export default function Home() {
     try {
       console.log('Sending text to speech API:', text);
 
-      // Stop speech recognition while AI is speaking
       if (isListening) {
         stopSpeechRecognition();
       }
-      // Also stop recording if using mic button
       if (isRecording) {
         stopRecording();
       }
@@ -397,7 +382,6 @@ export default function Home() {
       audio.onerror = (e) => {
         console.error('Error playing audio:', e);
         setIsSpeaking(false);
-        // Resume speech recognition if in continuous mode
         if (continuousListeningRef.current) {
           console.log('Resuming speech recognition after audio error');
           setTimeout(() => startSpeechRecognition(), 100);
@@ -407,7 +391,6 @@ export default function Home() {
       audio.onended = () => {
         console.log('Audio playback ended');
         setIsSpeaking(false);
-        // Resume speech recognition after AI finishes speaking
         if (continuousListeningRef.current) {
           console.log('Resuming speech recognition after audio ended');
           setTimeout(() => startSpeechRecognition(), 500);
@@ -420,7 +403,6 @@ export default function Home() {
     } catch (error: any) {
       console.error('Error generating speech:', error);
       setIsSpeaking(false);
-      // Resume speech recognition if in continuous mode even on error
       if (continuousListeningRef.current) {
         setTimeout(() => startSpeechRecognition(), 100);
       }
@@ -473,7 +455,6 @@ export default function Home() {
         },
       ]);
 
-      // Auto-speak the response in continuous listening mode
       console.log('Continuous listening:', continuousListening, 'Content:', assistantMessage.content);
       if (continuousListening) {
         console.log('Auto-speaking the response...');
@@ -491,8 +472,7 @@ export default function Home() {
           id: `error-${Date.now()}`,
         },
       ]);
-      
-      // Also speak error message in continuous mode
+
       if (continuousListening) {
         await speakText(errorMsg);
       }
@@ -509,20 +489,21 @@ export default function Home() {
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-white text-emerald-950"
-      style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
+      style={{
+        fontFamily:
+          'system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
+      }}
     >
       <div className="relative w-full max-w-4xl px-4 py-10">
-        {/* Main chat box: dark green with lime accents */}
-        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-lime-400/70 bg-emerald-950 text-emerald-50 shadow-[0_0_45px_rgba(190,242,100,0.35)]">
-          {/* Forest-like inner backdrop (inside the dark box) */}
-          <div className="pointer-events-none absolute inset-0 opacity-20">
-            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-emerald-900 via-emerald-950 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-emerald-900 via-emerald-950 to-transparent" />
-            <div className="absolute inset-x-0 top-1/3 h-32 bg-[radial-gradient(circle_at_20%_0,rgba(190,242,100,0.24),transparent_60%),radial-gradient(circle_at_80%_0,rgba(190,242,100,0.18),transparent_55%)]" />
+        {/* Main chat box: ombré lime/emerald gradient */}
+        <div className="relative flex h-[700px] flex-col overflow-hidden rounded-3xl border border-lime-400/70 bg-gradient-to-b from-lime-800 via-emerald-800 to-lime-500 text-emerald-50 shadow-[0_0_45px_rgba(190,242,100,0.35)]">
+          {/* Simplified inner lime wash over the gradient */}
+          <div className="pointer-events-none absolute inset-0 opacity-25">
+            <div className="absolute inset-0 bg-gradient-to-b from-lime-900/50 via-emerald-800/30 to-lime-400/25" />
           </div>
 
           {/* Echidna aura + header */}
-          <div className="relative z-10 flex items-center justify-between border-b border-emerald-800/80 px-5 py-4">
+          <div className="relative z-10 flex items-center justify-between border-b border-emerald-900/70 bg-emerald-950/40 px-5 py-4">
             <div className="flex items-center gap-3">
               {/* Eye-like breathing icon */}
               <div className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-emerald-700 to-emerald-500 shadow-[0_0_18px_rgba(190,242,100,0.7)] animate-pulse">
@@ -541,20 +522,20 @@ export default function Home() {
                 <h1 className="text-lg font-semibold tracking-wide text-emerald-50">
                   AI POET CHAT
                 </h1>
-                <p className="text-xs text-emerald-200/85">
+                <p className="text-xs text-emerald-100/90">
                   Chat with Echidna, a creature from the 70s.
                 </p>
               </div>
             </div>
 
-            {/* Continuous listen + status, lime-accented */}
+            {/* Continuous listen + status */}
             <div className="flex flex-col items-end gap-1">
               <label
-                className={`flex items-center gap-2 rounded-full border border-lime-400/70 px-3 py-1 text-[0.65rem] tracking-wide ${
+                className={`flex items-center gap-2 rounded-full border border-lime-300/80 px-3 py-1 text-[0.65rem] tracking-wide ${
                   isSpeaking ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
-                } bg-emerald-950/80`}
+                } bg-emerald-950/50`}
               >
-                <span className="font-mono uppercase text-emerald-200">
+                <span className="font-mono uppercase text-emerald-100">
                   Continuous
                 </span>
                 <button
@@ -580,8 +561,8 @@ export default function Home() {
                   disabled={isSpeaking}
                   className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.2em] transition ${
                     continuousListening
-                      ? 'border-lime-300 bg-lime-300 text-emerald-950 shadow-[0_0_10px_rgba(190,242,100,0.7)]'
-                      : 'border-lime-400/70 bg-transparent text-emerald-200 hover:bg-emerald-900/60'
+                      ? 'border-lime-200 bg-lime-200 text-emerald-950 shadow-[0_0_10px_rgba(190,242,100,0.7)]'
+                      : 'border-lime-300/80 bg-transparent text-emerald-100 hover:bg-emerald-900/60'
                   } ${isSpeaking ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   {continuousListening ? 'On' : 'Off'}
@@ -590,19 +571,19 @@ export default function Home() {
 
               <div className="flex gap-2">
                 {isListening && !isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-900/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100">
                     <Mic size={11} className="animate-pulse" />
                     <span>Listening</span>
                   </span>
                 )}
                 {isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-lime-400/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(190,242,100,0.9)]">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-lime-300/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-950 shadow-[0_0_12px_rgba(190,242,100,0.9)]">
                     <Volume2 size={11} className="animate-pulse" />
                     <span>Speaking</span>
                   </span>
                 )}
                 {continuousListening && !isListening && !isSpeaking && (
-                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-400/70 bg-emerald-950/90 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-200/90">
+                  <span className="inline-flex items-center gap-1 rounded-full border border-lime-300/80 bg-emerald-950/80 px-2.5 py-0.5 text-[0.6rem] font-mono uppercase tracking-[0.18em] text-emerald-100/90">
                     <span className="h-1.5 w-1.5 rounded-full bg-lime-300" />
                     <span>Idle</span>
                   </span>
@@ -613,11 +594,11 @@ export default function Home() {
 
           {/* Message area */}
           <div className="relative z-10 flex-1 overflow-y-auto px-4 py-4 md:px-5 md:py-5">
-            {/* subtle vertical tree trunks inside */}
+            {/* subtle trunks */}
             <div className="pointer-events-none absolute inset-0 opacity-25">
-              <div className="absolute inset-y-4 left-[18%] w-px bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
-              <div className="absolute inset-y-6 left-[35%] w-[2px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
-              <div className="absolute inset-y-3 right-[25%] w-[1.5px] bg-gradient-to-b from-emerald-700 via-emerald-800 to-emerald-900" />
+              <div className="absolute inset-y-4 left-[18%] w-px bg-gradient-to-b from-emerald-800 via-emerald-900 to-emerald-950" />
+              <div className="absolute inset-y-6 left-[35%] w-[2px] bg-gradient-to-b from-emerald-800 via-emerald-900 to-emerald-950" />
+              <div className="absolute inset-y-3 right-[25%] w-[1.5px] bg-gradient-to-b from-emerald-800 via-emerald-900 to-emerald-950" />
             </div>
 
             <div className="relative flex h-full flex-col space-y-3">
@@ -629,7 +610,7 @@ export default function Home() {
                   }`}
                 >
                   {message.role === 'assistant' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-700 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
                       <Bot size={16} className="text-emerald-950" />
                     </div>
                   )}
@@ -642,7 +623,7 @@ export default function Home() {
                     <div
                       className={`rounded-2xl px-3 py-2 text-sm leading-relaxed shadow-md ${
                         message.role === 'user'
-                          ? 'bg-emerald-900/80 text-emerald-50 border border-emerald-700/80'
+                          ? 'bg-emerald-950/80 text-emerald-50 border border-emerald-800/80'
                           : 'bg-emerald-50 text-emerald-950 border border-emerald-100'
                       }`}
                     >
@@ -663,14 +644,14 @@ export default function Home() {
                     )}
 
                     {message.timestamp && (
-                      <span className="mt-1 text-[0.6rem] font-mono text-emerald-200/80">
+                      <span className="mt-1 text-[0.6rem] font-mono text-emerald-100/80">
                         {new Date(message.timestamp).toLocaleTimeString()}
                       </span>
                     )}
                   </div>
 
                   {message.role === 'user' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-900/90 text-emerald-100 border border-emerald-700/80">
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/80 text-emerald-100 border border-emerald-800/80">
                       <User size={16} />
                     </div>
                   )}
@@ -679,7 +660,7 @@ export default function Home() {
 
               {isLoading && (
                 <div className="flex items-center justify-start gap-2">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
+                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-700 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
                     <Bot size={16} className="text-emerald-950" />
                   </div>
                   <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/95 px-3 py-2">
@@ -705,8 +686,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Input at forest floor */}
-          <div className="relative z-10 border-t border-emerald-800/80 bg-emerald-950/95 px-4 py-3">
+          {/* Input */}
+          <div className="relative z-10 border-t border-emerald-900/70 bg-emerald-950/80 px-4 py-3">
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <input
                 type="text"
@@ -718,7 +699,7 @@ export default function Home() {
                 className={`flex-1 rounded-2xl border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-lime-300/80 ${
                   isListening
                     ? 'border-lime-300 bg-emerald-950 text-emerald-50 placeholder-emerald-300 font-mono'
-                    : 'border-emerald-700/80 bg-emerald-900/70 text-emerald-50 placeholder-emerald-300/80'
+                    : 'border-emerald-800/80 bg-emerald-900/80 text-emerald-50 placeholder-emerald-200/80'
                 }`}
                 style={{ fontFamily: isListening ? 'monospace' : 'inherit' }}
                 disabled={isLoading}
@@ -730,7 +711,7 @@ export default function Home() {
                 className={`flex h-10 w-10 items-center justify-center rounded-full border text-emerald-50 transition ${
                   isRecording
                     ? 'border-lime-300 bg-lime-300 text-emerald-950 animate-pulse'
-                    : 'border-emerald-600 bg-emerald-900/90 hover:bg-emerald-800'
+                    : 'border-emerald-700 bg-emerald-950/90 hover:bg-emerald-900'
                 }`}
                 disabled={isLoading || continuousListening}
                 title={continuousListening ? 'Mic is auto-managed in continuous mode' : 'Push to talk'}
@@ -739,7 +720,7 @@ export default function Home() {
               </button>
               <button
                 type="submit"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-lime-400 bg-lime-300 text-emerald-950 transition hover:bg-lime-200 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-lime-300 bg-lime-300 text-emerald-950 transition hover:bg-lime-200 disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={!input.trim() || isLoading}
               >
                 <Send size={18} />
