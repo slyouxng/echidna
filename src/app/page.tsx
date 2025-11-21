@@ -610,8 +610,16 @@ export default function Home() {
                   }`}
                 >
                   {message.role === 'assistant' && (
-                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-700 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
-                      <Bot size={16} className="text-emerald-950" />
+                    <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-emerald-950/90 border border-emerald-800/80 shadow-[0_0_12px_rgba(190,242,100,0.6)]">
+                      {/* Fanged mouth */}
+                      <div className="relative flex h-5 w-7 items-center justify-center rounded-b-full rounded-t-md bg-emerald-900 overflow-hidden">
+                        {/* Tongue */}
+                        <div className="absolute inset-x-1 bottom-1 h-2 rounded-full bg-rose-500/80" />
+                        {/* Left fang */}
+                        <div className="absolute -top-1 left-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
+                        {/* Right fang */}
+                        <div className="absolute -top-1 right-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
+                      </div>
                     </div>
                   )}
 
@@ -660,8 +668,16 @@ export default function Home() {
 
               {isLoading && (
                 <div className="flex items-center justify-start gap-2">
-                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-700 to-emerald-400 shadow-[0_0_12px_rgba(190,242,100,0.7)]">
-                    <Bot size={16} className="text-emerald-950" />
+                  <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-950/90 border border-emerald-800/80 shadow-[0_0_12px_rgba(190,242,100,0.6)]">
+                    {/* Fanged mouth for loading avatar */}
+                    <div className="relative flex h-5 w-7 items-center justify-center rounded-b-full rounded-t-md bg-emerald-900 overflow-hidden">
+                      {/* Tongue */}
+                      <div className="absolute inset-x-1 bottom-1 h-2 rounded-full bg-rose-500/80" />
+                      {/* Left fang */}
+                      <div className="absolute -top-1 left-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
+                      {/* Right fang */}
+                      <div className="absolute -top-1 right-1 w-0 h-0 border-l-[4px] border-r-[4px] border-b-[8px] border-l-transparent border-r-transparent border-b-emerald-50" />
+                    </div>
                   </div>
                   <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/95 px-3 py-2">
                     <div className="flex gap-1.5">
