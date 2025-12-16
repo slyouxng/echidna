@@ -534,7 +534,7 @@ export default function Home() {
               </div>
               <div>
                 <h1 className="text-lg font-semibold tracking-wide text-lime-50">
-                  AI POET CHAT
+                  ECHIDNA BOT
                 </h1>
                 <p className="text-xs text-lime-100/90">
                   Chat with Echidna, a creature from the 70s.
